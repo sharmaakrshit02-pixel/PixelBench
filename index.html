@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PixelBench — Gaming & Hardware Blog</title>
+<link rel="stylesheet" href="style.css">
+  <style>
+    /* Smooth transitions */
+.card,
+.button,
+nav a,
+.logo,
+.card-image {
+  transition: all 0.3s ease;
+}
+
+/* Navigation hover animation */
+nav a {
+  position: relative;
+}
+
+nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -8px;
+  width: 0;
+  height: 2px;
+  background: var(--secondary);
+  transition: width 0.3s ease;
+}
+
+nav a:hover::after,
+nav a.active::after {
+  width: 100%;
+}
+
+nav a:hover {
+  color: var(--secondary);
+  transform: translateY(-2px);
+}
+
+/* Card hover animation */
+.card {
+  cursor: pointer;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  border-color: var(--secondary);
+  box-shadow: 0 12px 30px rgba(0, 212, 255, 0.18);
+}
+
+/* Zoom the card image */
+.card:hover .card-image {
+  transform: scale(1.06);
+}
+
+.card-image {
+  transition: transform 0.5s ease;
+}
+
+/* Button hover animation */
+.button {
+  border: none;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.button:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 8px 22px rgba(0, 212, 255, 0.3);
+}
+
+/* Logo hover animation */
+.logo:hover {
+  transform: scale(1.05);
+}
+
+/* Newsletter input focus */
+.newsletter input {
+  outline: none;
+  border: 2px solid transparent;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.newsletter input:focus {
+  border-color: var(--secondary);
+  box-shadow: 0 0 12px rgba(0, 212, 255, 0.3);
+}
+
+    :root {
+      --background: #0b0d14;
+      --surface: #151925;
+      --surface-light: #202638;
+      --text: #f5f7ff;
+      --muted: #9ba3b7;
+      --primary: #6c63ff;
+      --secondary: #00d4ff;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--background);
+      color: var(--text);
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(1150px, 92%);
+      margin: auto;
+    }
+
+    header {
+      border-bottom: 1px solid #252a3a;
+      background: rgba(11, 13, 20, 0.95);
+    }
+
+    .navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 76px;
+      gap: 30px;
+    }
+
+    .logo {
+      color: var(--text);
+      font-size: 1.5rem;
+      font-weight: 800;
+    }
+
+    .logo span {
+      color: var(--secondary);
+    }
+
+    nav {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      color: var(--muted);
+      font-size: 0.95rem;
+      transition: color 0.2s;
+    }
+
+    nav a:hover,
+    nav a.active {
+      color: var(--secondary);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 30px;
+      align-items: center;
+      padding: 70px 0;
+    }
+
+    .hero-content span,
+    .category {
+      color: var(--secondary);
+      font-size: 0.8rem;
+      font-weight: bold;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      font-size: clamp(2.4rem, 6vw, 4.5rem);
+      line-height: 1.05;
+      margin: 16px 0;
+    }
+
+    .hero p {
+      color: var(--muted);
+      max-width: 600px;
+      margin-bottom: 25px;
+    }
+
+    .button {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 8px;
+      color: white;
+      font-weight: bold;
+      padding: 12px 20px;
+    }
+
+    .hero-image {
+      min-height: 330px;
+      border-radius: 16px;
+      background:
+        linear-gradient(rgba(10, 13, 25, 0.2), rgba(10, 13, 25, 0.9)),
+        url("https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1000&q=80")
+        center/cover;
+    }
+
+    section {
+      padding: 35px 0;
+    }
+
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 22px;
+    }
+
+    .section-title h2 {
+      font-size: 1.8rem;
+    }
+
+    .section-title a {
+      color: var(--secondary);
+      font-size: 0.9rem;
+    }
+
+    .posts {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .card {
+      overflow: hidden;
+      border: 1px solid #252a3a;
+      border-radius: 12px;
+      background: var(--surface);
+    }
+
+    .card-image {
+      height: 180px;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .card-content {
+      padding: 18px;
+    }
+
+    .card h3 {
+      font-size: 1.15rem;
+      margin: 8px 0;
+    }
+
+    .card p {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .meta {
+      color: var(--muted);
+      font-size: 0.8rem;
+      margin-top: 14px;
+    }
+
+    .newsletter {
+      padding: 35px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #191d38, #112b3d);
+      text-align: center;
+    }
+
+    .newsletter p {
+      color: var(--muted);
+      margin: 8px 0 20px;
+    }
+
+    .newsletter input {
+      width: min(330px, 100%);
+      padding: 13px;
+      border: 0;
+      border-radius: 7px;
+      margin-right: 6px;
+    }
+
+    footer {
+      border-top: 1px solid #252a3a;
+      color: var(--muted);
+      margin-top: 50px;
+      padding: 28px 0;
+      text-align: center;
+    }
+
+    @media (max-width: 800px) {
+      .navbar,
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .navbar {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 18px 0;
+      }
+
+      nav {
+        gap: 13px;
+      }
+
+      .hero {
+        padding: 45px 0;
+      }
+
+      .posts {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="container navbar">
+      <a href="index.html" class="logo">Pixel<span>Bench</span></a>
+
+      <nav>
+        <a href="index.html" class="active">Home</a>
+        <a href="gaming.html">Gaming</a>
+        <a href="hardware.html">Hardware</a>
+        <a href="benchmarks.html">Benchmarks</a>
+        <a href="guides.html">Guides</a>
+        <a href="about.html">About</a>
+      </nav>
+       <div class="author">
+      <span>Created by</span>
+      <strong>Akrshit Sharma</strong>
+    </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div class="hero-content">
+        <span>Featured Article</span>
+        <h1>Build smarter. Play better.</h1>
+        <p>
+          Gaming news, hardware reviews, benchmarks, and useful guides
+          for PC enthusiasts.
+        </p>
+        <a href="article.html" class="button">
+  Read Featured Article
+</a>
+
+      </div>
+
+      <div class="hero-image"></div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>Latest Articles</h2>
+        <a href="#">View all articles →</a>
+      </div>
+
+      <div class="posts">
+        <article class="card">
+  <div
+    class="card-image"
+    style="background-image: url('https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&w=800&q=80');">
+  </div>
+
+  <div class="card-content">
+    <span class="category">Guides</span>
+    <h3>How to optimize Windows for gaming</h3>
+    <p>
+      Improve your gaming performance with these simple Windows settings.
+    </p>
+    <div class="meta">March 6, 2026 · 7 min read</div>
+  </div>
+</article>
+
+<article class="card">
+  <div
+    class="card-image"
+    style="background-image: url('https://images.unsplash.com/photo-1600861194942-f883de0dfe96?auto=format&fit=crop&w=800&q=80');">
+  </div>
+
+  <div class="card-content">
+    <span class="category">Hardware</span>
+    <h3>Mechanical keyboards compared</h3>
+    <p>
+      We compare popular mechanical keyboard switches for gaming and typing.
+    </p>
+    <div class="meta">March 4, 2026 · 9 min read</div>
+  </div>
+</article>
+
+<article class="card">
+  <div
+    class="card-image"
+    style="background-image: url('https://images.unsplash.com/photo-1555680202-c86f0e12f086?auto=format&fit=crop&w=800&q=80');">
+  </div>
+
+  <div class="card-content">
+    <span class="category">Benchmarks</span>
+    <h3>Ryzen 7 vs Core i7 gaming test</h3>
+    <p>
+      A detailed comparison of gaming performance, temperatures, and power use.
+    </p>
+    <div class="meta">March 2, 2026 · 10 min read</div>
+  </div>
+</article>
+
+        <article class="card">
+          <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1593305841991-05c297ba4575?auto=format&fit=crop&w=800&q=80');"></div>
+          <div class="card-content">
+            <span class="category">Hardware</span>
+            <h3>Best GPUs for gaming in 2026</h3>
+            <p>A practical look at the best graphics cards for different budgets.</p>
+            <div class="meta">March 12, 2026 · 6 min read</div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=800&q=80');"></div>
+          <div class="card-content">
+            <span class="category">Gaming</span>
+            <h3>Games worth playing this month</h3>
+            <p>Our hand-picked selection of new and upcoming games.</p>
+            <div class="meta">March 10, 2026 · 5 min read</div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1587202372634-32705e3bf49c?auto=format&fit=crop&w=800&q=80');"></div>
+          <div class="card-content">
+            <span class="category">Benchmarks</span>
+            <h3>RTX performance comparison</h3>
+            <p>We compare real-world gaming performance across popular GPUs.</p>
+            <div class="meta">March 8, 2026 · 8 min read</div>
+          </div>
+        </article>
+      </div>
+
+    </section>
+    
+     <section class="benchmark-section">
+
+    <div class="section-title">
+        <h2>Latest Benchmark Results</h2>
+        <p>Real-world gaming performance at different resolutions</p>
+    </div>
+
+    <div class="benchmark-table">
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Graphics Card</th>
+                    <th>Game</th>
+                    <th>Resolution</th>
+                    <th>Average FPS</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <tr>
+                    <td>RTX 4070</td>
+                    <td>Cyberpunk 2077</td>
+                    <td>1440p</td>
+                    <td>92 FPS</td>
+                </tr>
+
+                <tr>
+                    <td>RX 7800 XT</td>
+                    <td>Black Myth: Wukong</td>
+                    <td>1440p</td>
+                    <td>88 FPS</td>
+                </tr>
+
+                <tr>
+                    <td>RTX 4060</td>
+                    <td>Grand Theft Auto V</td>
+                    <td>1080p</td>
+                    <td>190 FPS</td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+    
+
+    <section class="newsletter">
+      <h2>Get the latest articles</h2>
+      <p>Subscribe for gaming news, reviews, benchmarks, and guides.</p>
+      <form>
+        <input type="email" placeholder="Your email address" required>
+        <button class="button" type="submit">Subscribe</button>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      © 2026 PixelBench. All rights reserved.
+    </div>
+  </footer>
+</body>
+</html>
